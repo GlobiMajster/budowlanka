@@ -10,7 +10,6 @@ public class Login {
             System.out.println("-------------------");
             System.out.println("      BartBUD      ");
             System.out.println("-------------------");
-            System.out.println(" ");
 
             System.out.print("Login: ");
             String loginAPP = scanner.nextLine();

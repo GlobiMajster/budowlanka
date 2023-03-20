@@ -12,6 +12,9 @@ public class ManagerPanel {
     public static void start(String loginDATABASE, String hasloDATABASE, String nameDATABASE, String teamNameDATABASE) {
         while (true) {
             System.out.println(" ");
+            System.out.println("-------------------");
+            System.out.println("      BartBUD      ");
+            System.out.println("-------------------");
             System.out.println("Witaj " + nameDATABASE);
             System.out.println(currentDate);
             System.out.println("Twój zespół: " + teamNameDATABASE);
@@ -24,7 +27,7 @@ public class ManagerPanel {
 
             int choice;
             while (true) {
-                System.out.print("Wybierz akcje(1/3): ");
+                System.out.print("Wybierz akcje(1/4): ");
                 try {
                     choice = scanner.nextInt();
                     break;
@@ -95,10 +98,6 @@ public class ManagerPanel {
                     Settings.back();
                 }
                 case 3 -> {
-                    System.out.println("||----------------||");
-                    System.out.println("||   Ustawienia   ||");
-                    System.out.println("||----------------||");
-
                     Settings.changePassword(loginDATABASE, hasloDATABASE);
 
                     System.out.println(" ");

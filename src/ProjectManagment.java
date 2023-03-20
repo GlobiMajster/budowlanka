@@ -10,6 +10,9 @@ public class ProjectManagment {
     public static void projectManagment(String loginDATABASE, String hasloDATABASE, String nameDATABASE) {
         while (true) {
             System.out.println(" ");
+            System.out.println("--------------------");
+            System.out.println("      Projekty      ");
+            System.out.println("--------------------");
             System.out.println(currentDate);
             System.out.println(" ");
             System.out.println("1. Wyswietl projekty");
@@ -21,7 +24,7 @@ public class ProjectManagment {
 
             int choice;
             while (true) {
-                System.out.print("Wybierz opcje: ");
+                System.out.print("Wybierz akcje(1/5): ");
                 try {
                     choice = scanner.nextInt();
                     break;
@@ -98,17 +101,14 @@ public class ProjectManagment {
                 System.out.println("------------------");
                 System.out.println("Status zlecenia: " + table13);
                 System.out.println("------------------");
-                System.out.println(" ");
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void addProject() {
+    private static void addProject() {
         scanner.nextLine();
-
-        CustomersManagement.showCustomers();
 
         System.out.print("Temat zlecenia: ");
         String description = scanner.nextLine();
@@ -166,7 +166,10 @@ public class ProjectManagment {
             }
         }
 
-        int clientID = 0;
+        CustomersManagement.showCustomers();
+        System.out.println(" ");
+
+        int clientID;
         while (true) {
             System.out.print("ID Klienta: ");
             try {
@@ -178,8 +181,10 @@ public class ProjectManagment {
                 scanner.next();
             }
         }
+        TeamManagment.showTeam();
+        System.out.println(" ");
 
-        int teamID = 0;
+        int teamID;
         while (true) {
             System.out.print("ID Ekipy: ");
             try {
@@ -193,8 +198,10 @@ public class ProjectManagment {
         }
 
         QueryExecutor.executeQuery("INSERT INTO `zlecenia`(`opis_zlecenia`, `data_rozpoczecia`, `data_realizacji`, `dni_pracy`, `godziny_prac`, `koszt_zlecenia`, `id_klienta`, `id_ekipy`, `status_zlecenia`) VALUES ('"+description+"','"+startDate+"','"+endDate+"','"+workDays+"','"+hoursOfWork+"','"+payments+"','"+clientID+"','"+teamID+"','otwarte')");
+        System.out.println(" ");
+        System.out.println("Dodano projekt do bazy");
     }
-    public static void archiveProject() {
+    private static void archiveProject() {
         showProjects();
 
         int archive;
@@ -211,10 +218,10 @@ public class ProjectManagment {
         }
 
         QueryExecutor.executeQuery("UPDATE `zlecenia` SET `status_zlecenia`='zamkniete' WHERE zlecenia.id_zlecenia = '"+archive+"' ");
-
+        System.out.println(" ");
         System.out.println("Pomyślnie dodano zlecenie o ID " +archive+ " do archiwum.");
     }
-    public static void archives() {
+    private static void archives() {
 
         try {
             ResultSet resultSelect = QueryExecutor.executeSelect("SELECT * FROM `zlecenia` INNER JOIN ekipy ON zlecenia.id_ekipy = ekipy.id_ekipy INNER JOIN klienci ON zlecenia.id_klienta = klienci.id_klienta WHERE status_zlecenia = 'zamkniete' ORDER BY `zlecenia`.`id_zlecenia` ASC");
@@ -247,7 +254,6 @@ public class ProjectManagment {
                 System.out.println("------------------");
                 System.out.println("Status zlecenia: " + table13);
                 System.out.println("------------------");
-                System.out.println(" ");
             }
 
         } catch (SQLException e) {

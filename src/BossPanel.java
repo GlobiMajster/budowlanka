@@ -9,6 +9,9 @@ public class BossPanel {
     public static void start(String loginDATABASE, String hasloDATABASE, String nameDATABASE) {
         while (true) {
             System.out.println(" ");
+            System.out.println("-------------------");
+            System.out.println("      BartBUD      ");
+            System.out.println("-------------------");
             System.out.println("Witaj " + nameDATABASE);
             System.out.println(currentDate);
             System.out.println(" ");
@@ -22,7 +25,7 @@ public class BossPanel {
 
             int choice;
             while (true) {
-                System.out.print("Wybierz akcje(1/3): ");
+                System.out.print("Wybierz akcje(1/6): ");
                 try {
                     choice = scanner.nextInt();
                     break;
@@ -53,36 +56,27 @@ public class BossPanel {
                     System.out.println(" ");
                     System.out.println("1. Wróć");
                     Settings.back();
-//                }
-//                case 4 -> {
-//                    System.out.println(" ");
-//                    System.out.println("||----------------||");
-//                    System.out.println("||   Ustawienia   ||");
-//                    System.out.println("||----------------||");
-//
-//                    TeamManagment.teamManagment(loginDATABASE, hasloDATABASE);
-//
-//                    System.out.println(" ");
-//                    System.out.println("1. Wróć");
-//                    Settings.back();
-//                }
-//                case 5 -> {
-//                    System.out.println(" ");
-//                    System.out.println("||----------------||");
-//                    System.out.println("||   Ustawienia   ||");
-//                    System.out.println("||----------------||");
-//
-//                    Settings.changePassword(loginDATABASE, hasloDATABASE);
-//
-//                    System.out.println(" ");
-//                    System.out.println("1. Wróć");
-//                    Settings.back();
-//                }
-//                case 6 -> {
-//                    System.out.println("Wylogowywanie");
-//                    Login.signIn();
-//                }
-//                default -> System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
+                }
+                case 4 -> {
+                    System.out.println(" ");
+                    TeamManagment.teamManagment(loginDATABASE, hasloDATABASE, nameDATABASE);
+                    System.out.println(" ");
+                    System.out.println("1. Wróć");
+                    Settings.back();
+                }
+                case 5 -> {
+                    System.out.println(" ");
+                    Settings.changePassword(loginDATABASE, hasloDATABASE);
+
+                    System.out.println(" ");
+                    System.out.println("1. Wróć");
+                    Settings.back();
+                }
+                case 6 -> {
+                    System.out.println("Wylogowywanie");
+                    Login.signIn();
+                }
+                default -> System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
             }
         }
     }

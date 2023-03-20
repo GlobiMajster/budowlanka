@@ -7,9 +7,13 @@ import java.util.Scanner;
 public class EmployeeManagment {
     static LocalDate currentDate = LocalDate.now();
     static Scanner scanner = new Scanner(System.in);
+
     public static void employeeManagment(String loginDATABASE, String hasloDATABASE, String nameDATABASE) {
         while (true) {
             System.out.println(" ");
+            System.out.println("--------------------");
+            System.out.println("     Pracownicy     ");
+            System.out.println("--------------------");
             System.out.println(currentDate);
             System.out.println(" ");
             System.out.println("1. Wyświetl pracowników");
@@ -20,7 +24,7 @@ public class EmployeeManagment {
 
             int choice;
             while (true) {
-                System.out.print("Wybierz opcje: ");
+                System.out.print("Wybierz akcje(1/4): ");
                 try {
                     choice = scanner.nextInt();
                     break;
@@ -33,7 +37,7 @@ public class EmployeeManagment {
             switch (choice) {
                 case 1 -> {
                     System.out.println(" ");
-                    showWorkers();
+                    showWorkersAll();
                     System.out.println(" ");
                     System.out.println("1. Wróć");
                     Settings.back();
@@ -57,120 +61,102 @@ public class EmployeeManagment {
             }
         }
     }
+
     public static void showWorkers() {
-        Settings.clearScreen();
         try {
-            ResultSet resultSelect = QueryExecutor.executeSelect("SELECT `id_konta`, `imie`, `nazwisko`, `nr_tel` FROM `konta` WHERE `stanowisko` = 'pracownik'");
+            ResultSet resultSelect = QueryExecutor.executeSelect("SELECT * FROM `pracownicy` INNER JOIN ekipy ON pracownicy.id_zespolu = ekipy.id_ekipy WHERE stanowisko = 'pracownik' OR stanowisko = 'kierownik' ORDER BY `pracownicy`.`id_pracownika` ASC;");
 
             while (resultSelect.next()) {
 
-                String table1 = resultSelect.getString("id_konta");
-                String table2 = resultSelect.getString("imie");
-                String table3 = resultSelect.getString("nazwisko");
-                String table4 = resultSelect.getString("nr_tel");
+                String table1 = resultSelect.getString("id_pracownika");
+                String table2 = resultSelect.getString("imie_pracownika");
+                String table3 = resultSelect.getString("nazwisko_pracownika");
+                String table4 = resultSelect.getString("numer_telefonu");
+                String table5 = resultSelect.getString("stanowisko");
+                String table6 = resultSelect.getString("nazwa");
 
-                System.out.println("ID: " + table1 + " || Dane: " + table2 + " " + table3 + " || Tel: " + table4);
+
+                System.out.println("ID: " + table1 + " - Dane: " + table2 + " " + table3 + " - Tel: " + table4 + " - Stanowisko: " + table5 + " - Ekipa: " + table6);
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
     private static void showWorkersAll() {
-        Settings.clearScreen();
         try {
-            ResultSet resultSelect = QueryExecutor.executeSelect("SELECT * FROM `konta`");
+            ResultSet resultSelect = QueryExecutor.executeSelect("SELECT * FROM `pracownicy` INNER JOIN ekipy ON pracownicy.id_zespolu = ekipy.id_ekipy WHERE stanowisko = 'pracownik' OR stanowisko = 'kierownik' ORDER BY `pracownicy`.`id_pracownika` ASC;");
 
             while (resultSelect.next()) {
 
-                String table1 = resultSelect.getString("id_konta");
-                String table2 = resultSelect.getString("identyfikator");
-                String table3 = resultSelect.getString("imie");
-                String table4 = resultSelect.getString("nazwisko");
-                String table5 = resultSelect.getString("nr_tel");
-                String table6 = resultSelect.getString("adres");
-                String table7 = resultSelect.getString("mail");
-                String table8 = resultSelect.getString("stanowisko");
+                String table1 = resultSelect.getString("id_pracownika");
+                String table8 = resultSelect.getString("login");
+                String table9 = resultSelect.getString("haslo");
+                String table2 = resultSelect.getString("imie_pracownika");
+                String table3 = resultSelect.getString("nazwisko_pracownika");
+                String table4 = resultSelect.getString("numer_telefonu");
+                String table5 = resultSelect.getString("stanowisko");
+                String table6 = resultSelect.getString("nazwa");
+                String table7 = resultSelect.getString("adres_email");
 
-                System.out.println("Id_konta: " + table1 + " || ID: " + table2 + " || Dane: " + table3 + " " + table4 + " || Tel: " + table5 + " || Adres: " + table6 + " || Mail: " + table7 + " || Stanowisko: " + table8);
+                System.out.println("ID: " + table1 + " - Dane: " + table2 + " " + table3 + " - Tel: " + table4 + " - Mail: " + table7 + " - Stanowisko: " + table5 + " - Ekipa: " + table6 + " - Login: " + table8 + " Hasło: " + table9);
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
     private static void addWorker() {
-        Settings.clearScreen();
-        int identyfikator;
+        scanner.nextLine();
+        System.out.println(" ");
+
+        System.out.print("Podaj login: ");
+        String login = scanner.nextLine();
+        System.out.print("Podaj hasło: ");
+        String password = scanner.nextLine();
+        System.out.print("Podaj imię: ");
+        String name = scanner.nextLine();
+        System.out.print("Podaj nazwisko: ");
+        String surname = scanner.nextLine();
+        int telNumber;
         while (true) {
-            System.out.print("Podaj identyfikator (10 cyfr): ");
+            System.out.print("Podaj numer telefonu (9 cyfr): ");
             try {
-                identyfikator = scanner.nextInt();
-                if (String.valueOf(identyfikator).length() == 10) {
-
-                    try {
-                        ResultSet resultSelect = QueryExecutor.executeSelect("SELECT `identyfikator` FROM `konta` WHERE `identyfikator` = '" + identyfikator + "'");
-
-                        if (resultSelect.next()) {
-
-                            System.out.println("Identyfikator: " + identyfikator + " jest już zajęty");
-                            addWorker();
-
-                        } else {
-                            scanner.nextLine();
-                            System.out.print("Podaj hasło: ");
-                            String password = scanner.nextLine();
-                            System.out.print("Podaj imię: ");
-                            String name = scanner.nextLine();
-                            System.out.print("Podaj nazwisko: ");
-                            String surname = scanner.nextLine();
-                            int telNumber;
-                            while (true) {
-                                System.out.print("Podaj numer telefonu (9 cyfr): ");
-                                try {
-                                    telNumber = scanner.nextInt();
-                                    if (String.valueOf(telNumber).length() == 9) {
-                                        break;
-                                    } else {
-                                        System.out.println("Numer telefonu musi się składać z 9 cyfr, spróbuj jeszcze raz.");
-                                    }
-                                } catch (InputMismatchException e) {
-                                    System.out.println("Wprowadzono nieprawidłowe dane, spróbuj jeszcze raz.");
-                                    scanner.next();
-                                }
-                            }
-                            scanner.nextLine();
-                            System.out.print("Adres zamieszkania: ");
-                            String homeAdress = scanner.nextLine();
-                            System.out.print("Adres e-mail: ");
-                            String emailAdress = scanner.nextLine();
-
-                            QueryExecutor.executeQuery("INSERT INTO `konta`(`identyfikator`, `haslo`, `imie`, `nazwisko`, `nr_tel`, `adres`, `mail`, `stanowisko`) VALUES ('" + identyfikator + "','" + password + "','" + name + "','" + surname + "','" + telNumber + "','" + homeAdress + "','" + emailAdress + "','pracownik')");
-
-                            System.out.println(" ");
-                            System.out.println("Dodano pracownika");
-                            System.out.println(" ");
-                        }
-
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-
+                telNumber = scanner.nextInt();
+                if (String.valueOf(telNumber).length() == 9) {
                     break;
                 } else {
-                    System.out.println("Identyfikator powinien składać się z 10 cyfr, spróbuj jeszcze raz.");
+                    System.out.println("Numer telefonu musi się składać z 9 cyfr, spróbuj jeszcze raz.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Wprowadzono nieprawidłowe dane, spróbuj jeszcze raz.");
                 scanner.next();
             }
         }
-    }
+        scanner.nextLine();
+        System.out.print("Adres e-mail: ");
+        String emailAdress = scanner.nextLine();
+        TeamManagment.showTeam();
+        System.out.println(" ");
+        int teamID;
+        while (true) {
+            System.out.print("ID zespołu: ");
+            try {
+                teamID = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Podaj liczbę");
+                scanner.next();
+            }
+        }
 
+        QueryExecutor.executeQuery("INSERT INTO `pracownicy`(`login`, `haslo`, `imie_pracownika`, `nazwisko_pracownika`, `adres_email`, `numer_telefonu`, `stanowisko`, `id_zespolu`) VALUES ('"+login+"','"+password+"','"+name+"','"+surname+"','"+emailAdress+"','"+telNumber+"','pracownik','"+teamID+"')");
+
+        System.out.println(" ");
+        System.out.println("Dodano pracownika");
+    }
     private static void removeWorker() {
-        Settings.clearScreen();
         showWorkers();
         System.out.println("--");
 
@@ -181,21 +167,20 @@ public class EmployeeManagment {
                 accountID = scanner.nextInt();
 
                 try {
-                    ResultSet resultSelect = QueryExecutor.executeSelect("SELECT `id_konta`, `stanowisko` FROM `konta` WHERE `id_konta` = '" + accountID + "'");
+                    ResultSet resultSelect = QueryExecutor.executeSelect("SELECT `id_pracownika`, `stanowisko` FROM `pracownicy` WHERE `id_pracownika` = '" + accountID + "'");
 
                     if (resultSelect.next()) {
 
                         String stanowisko = resultSelect.getString("stanowisko");
 
                         if (stanowisko.equals("pracownik")) {
-                            String zapytanie = "DELETE FROM `konta` WHERE `id_konta` = '" + accountID + "' AND `stanowisko` = 'pracownik'";
+                            String zapytanie = "DELETE FROM `pracownicy` WHERE `id_pracownika` = '" + accountID + "' AND `stanowisko` = 'pracownik'";
                             QueryExecutor.executeQuery(zapytanie);
 
                             System.out.println(" ");
                             System.out.println("Usunięto pracownika");
-                            System.out.println(" ");
                         } else {
-                            System.out.println("Nie można usunąć konta administratora");
+                            System.out.println("Nie można usunąć konta administratora lub kierownika");
                             System.out.println(" ");
                             removeWorker();
                         }

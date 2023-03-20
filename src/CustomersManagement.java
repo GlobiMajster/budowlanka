@@ -10,6 +10,9 @@ public class CustomersManagement {
     public static void customersManagement(String loginDATABASE, String hasloDATABASE, String nameDATABASE) {
         while (true) {
             System.out.println(" ");
+            System.out.println("-------------------");
+            System.out.println("      Klienci      ");
+            System.out.println("-------------------");
             System.out.println(currentDate);
             System.out.println(" ");
             System.out.println("1. Wyswietl klientów");
@@ -20,7 +23,7 @@ public class CustomersManagement {
 
             int choice;
             while (true) {
-                System.out.print("Wybierz opcje: ");
+                System.out.print("Wybierz akcje(1/4): ");
                 try {
                     choice = scanner.nextInt();
                     break;
@@ -80,7 +83,7 @@ public class CustomersManagement {
         }
         System.out.println("------------------");
     }
-    public static void addCustomer() {
+    private static void addCustomer() {
         scanner.nextLine();
 
         System.out.print("Imie klienta: ");
@@ -109,7 +112,7 @@ public class CustomersManagement {
         System.out.println(" ");
         System.out.println("Dodano klienta do bazy");
     }
-    public static void removeCustomer() {
+    private static void removeCustomer() {
         showCustomers();
         System.out.println(" ");
 

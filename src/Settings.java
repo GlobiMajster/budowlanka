@@ -20,7 +20,7 @@ public class Settings {
             String noweHaslo = scanner.nextLine();
 
             if (!stareHaslo.equals(noweHaslo)) {
-                String zapytanie = "UPDATE `konta` SET `haslo`='"+noweHaslo+"' WHERE login ='"+loginDATABASE+"'";
+                String zapytanie = "UPDATE `pracownicy` SET `haslo`='"+noweHaslo+"' WHERE login ='"+loginDATABASE+"'";
                 QueryExecutor.executeQuery(zapytanie);
 
                 System.out.println(" ");

@@ -13,6 +13,9 @@ public class WorkerPanel {
         while (true) {
 
             System.out.println(" ");
+            System.out.println("-------------------");
+            System.out.println("      BartBUD      ");
+            System.out.println("-------------------");
             System.out.println("Witaj " + nameDATABASE);
             System.out.println(currentDate);
             System.out.println("Twój zespół: " + teamNameDATABASE);
@@ -85,12 +88,7 @@ public class WorkerPanel {
 
                 }
                 case 2 -> {
-                    System.out.println("||----------------||");
-                    System.out.println("||   Ustawienia   ||");
-                    System.out.println("||----------------||");
-
                     Settings.changePassword(loginDATABASE, hasloDATABASE);
-
                     System.out.println(" ");
                     System.out.println("1. Wróć");
                     Settings.back();
